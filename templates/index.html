@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Disease Predictor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+</head>
+<body>
+    <div class="container">
+        <img src="{{ url_for('static', filename='images/logo.jpg')}}" width="300px" alt="Pikvardhan" />
+
+        <h1>Crop Disease Prediction</h1>
+        <p>Upload an image of your crop to predict the disease.</p>
+        <form id="predict-form" enctype="multipart/form-data">
+            <input type="file" id="image-upload" name="file" accept="image/*" required>
+            <button type="submit">Predict Disease</button>
+        </form>
+        <div id="result">
+            <p id="disease-name"></p>
+        </div>
+    </div>
+</body>
+</html>

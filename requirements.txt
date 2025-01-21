@@ -1,0 +1,8 @@
+Flask
+tensorflow==2.18.0
+joblib
+opencv-python
+numpy
+gunicorn
+scikit-learn
+tensorflow
