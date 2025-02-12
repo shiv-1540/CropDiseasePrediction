@@ -3,6 +3,14 @@ tensorflow==2.18.0
 joblib
 opencv-python
 numpy
+os
 gunicorn
 scikit-learn
 tensorflow
+cv2
+shutil
+starlette
+fastapi
+uvicorn
+pillow
+python-multipart
