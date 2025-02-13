@@ -74,16 +74,37 @@ def home():
     return {"message": "FastAPI backend is running"}
 
 # Image upload and prediction route
+# @app.post("/predict")
+# async def predict(file: UploadFile = File(...)):
+#     file_location = f"static/{file.filename}"
+    
+#     # Save uploaded file
+#     with open(file_location, "wb") as buffer:
+#         shutil.copyfileobj(file.file, buffer)
+    
+#     # Get prediction
+#     predicted_disease = predict_disease(file_location)
+    
+#     # Return JSON response
+#     return JSONResponse(content={"predicted_disease": predicted_disease})
+
 @app.post("/predict")
 async def predict(file: UploadFile = File(...)):
-    file_location = f"static/{file.filename}"
-    
-    # Save uploaded file
-    with open(file_location, "wb") as buffer:
-        shutil.copyfileobj(file.file, buffer)
-    
-    # Get prediction
-    predicted_disease = predict_disease(file_location)
-    
-    # Return JSON response
-    return JSONResponse(content={"predicted_disease": predicted_disease})
+    try:
+        file_location = f"static/{file.filename}"
+        
+        # Save file
+        with open(file_location, "wb") as buffer:
+            shutil.copyfileobj(file.file, buffer)
+
+        # Debugging: Check if file exists
+        if not os.path.exists(file_location):
+            return JSONResponse(content={"error": "File not saved"}, status_code=500)
+
+        # Get prediction
+        predicted_disease = predict_disease(file_location)
+        
+        return JSONResponse(content={"predicted_disease": predicted_disease})
+
+    except Exception as e:
+        return JSONResponse(content={"error": str(e)}, status_code=500)
