@@ -31,8 +31,8 @@ interpreter = tf.lite.Interpreter(model_path=cnn_model_path)
 interpreter.allocate_tensors()
 print("CNN model loaded successfully.")
 
-rf_classifier = joblib.load(rfc_model_path)
-print("Random Forest model loaded successfully.")
+# rf_classifier = joblib.load(rfc_model_path)
+# print("Random Forest model loaded successfully.")
 
 label_encoder = joblib.load(label_encoder_path)
 print("Label encoder loaded successfully.")
@@ -51,6 +51,29 @@ def preprocess_image(image_path, img_size=256):  # Change to 256
     return img.astype(np.float32)  # Ensure correct type
 
 # Function to predict disease
+# def predict_disease(image_path):
+#     img = preprocess_image(image_path)
+    
+#     # Set input tensor
+#     input_details = interpreter.get_input_details()
+#     output_details = interpreter.get_output_details()
+#     interpreter.set_tensor(input_details[0]['index'], img.astype(np.float32))
+    
+#     # Invoke the model
+#     interpreter.invoke()
+    
+#     # Extract features
+#     features = interpreter.get_tensor(output_details[0]['index'])
+#     features = features[:, :13]  # Keep only the first 13 features
+
+#     # Predict using Random Forest
+#     disease_prediction = rf_classifier.predict(features)
+    
+#     # Decode the predicted label
+#     disease_label = label_encoder.inverse_transform(disease_prediction)
+    
+#     return disease_label[0]
+
 def predict_disease(image_path):
     img = preprocess_image(image_path)
     
@@ -62,17 +85,16 @@ def predict_disease(image_path):
     # Invoke the model
     interpreter.invoke()
     
-    # Extract features
-    features = interpreter.get_tensor(output_details[0]['index'])
-    features = features[:, :13]  # Keep only the first 13 features
+    # Get CNN model predictions
+    prediction = interpreter.get_tensor(output_details[0]['index'])  # Raw output
+    
+    # Convert raw output to class label
+    predicted_class = np.argmax(prediction)  # Get class index
+    disease_label = label_encoder.inverse_transform([predicted_class])  # Decode class
 
-    # Predict using Random Forest
-    disease_prediction = rf_classifier.predict(features)
-    
-    # Decode the predicted label
-    disease_label = label_encoder.inverse_transform(disease_prediction)
-    
     return disease_label[0]
+
+
 
 # Home route
 @app.get("/")
