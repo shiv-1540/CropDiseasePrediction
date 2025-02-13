@@ -38,12 +38,17 @@ label_encoder = joblib.load(label_encoder_path)
 print("Label encoder loaded successfully.")
 
 # Function to preprocess image
-def preprocess_image(image_path, img_size=128):
+def preprocess_image(image_path, img_size=256):  # Change to 256
     img = cv2.imread(image_path)
-    img = cv2.resize(img, (img_size, img_size))  # Resize image
+    
+    if img is None:
+        raise ValueError(f"Error reading image: {image_path}")
+
+    img = cv2.resize(img, (img_size, img_size))  # Resize to 256x256
     img = img / 255.0  # Normalize
     img = np.expand_dims(img, axis=0)  # Add batch dimension
-    return img
+    
+    return img.astype(np.float32)  # Ensure correct type
 
 # Function to predict disease
 def predict_disease(image_path):
