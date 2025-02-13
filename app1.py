@@ -14,11 +14,12 @@ app = FastAPI()
 # Enable CORS for React frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Change to your frontend URL for security
+    allow_origins=["http://localhost:5173", "https://your-frontend-url.com"],  
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["POST", "OPTIONS"],  # Ensure OPTIONS is allowed
     allow_headers=["*"],
 )
+
 
 # Paths to model and encoder
 cnn_model_path = 'models/model_quantized.tflite'
