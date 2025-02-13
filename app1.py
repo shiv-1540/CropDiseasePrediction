@@ -9,7 +9,7 @@ from starlette.middleware.cors import CORSMiddleware
 import shutil
 
 # Initialize FastAPI app
-app = FastAPI()
+app = FastAPI(title="Smart Crop Disease Prediction API")
 
 # Enable CORS for React frontend
 app.add_middleware(
