@@ -64,7 +64,8 @@ def predict_disease(image_path):
     
     # Extract features
     features = interpreter.get_tensor(output_details[0]['index'])
-    
+    features = features[:, :13]  # Keep only the first 13 features
+
     # Predict using Random Forest
     disease_prediction = rf_classifier.predict(features)
     
