@@ -3,9 +3,19 @@ import google.generativeai as genai
 from PIL import Image
 from io import BytesIO
 import base64
+from fastapi.middleware.cors import CORSMiddleware
+
 
 # FastAPI instance
 app = FastAPI()
+# Allow all origins (use specific origins in production)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Change to specific origins for security
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Configure API key
 genai.configure(api_key="AIzaSyAaj7V1UIbiLpOPQ2_A7oK6sKFHSdt81Lg")
