@@ -1,8 +1,10 @@
+google-generativeai
+
 flask
 numpy
 Pillow
-torchvision
-torch
+#torchvision
+#torch
 pandas
 gunicorn==20.1.0
 fastapi
